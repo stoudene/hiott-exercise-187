@@ -1,0 +1,68 @@
+/**AUTHOR: Esther Hiott
+ * COURSE: CPT 187 Object-Oriented Logic & Design
+ * PURPOSE: Creates the order itself based on what the user selects and puts into the program.
+ * CREATE DATE: September 29, 2020 **/
+
+package edu.cpt187.hiott.exercise6;
+
+//IMPORT: 3 classes to write data files
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+//START OF SUPPORTIVE CLASS: WriteOrder
+public class WriteOrder 
+{
+	//Declare and initialize all non-constant class attributes
+	private boolean fileFoundFlag = false;
+	private String masterFileName = "";
+	private int recordCount = 0;
+	
+	//START OF NON-DEFAULT CONSTRUCTOR: WriteOrder
+	public WriteOrder (String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}//END OF NON-DEFAULT CONSTRUCTOR: WriteOrder
+	
+	//START OF SETTER: setWriteOrder
+	//Appends the write file to the record count
+	public void setWriteOrder (int borrowedItemID, String borrowedItemName, double borrowedItemPrice,
+			int borrowedQuantity, double borrowedOrderCost)
+	{
+		//START OF TRY/CATCH
+		//START OF TRY: Try to print the itemID, itemPrice, and quantity
+		try
+		{
+			PrintWriter filePW = new PrintWriter (new FileWriter(masterFileName, true));
+			filePW.printf("%n%d\t%f\t%d\t%f", borrowedItemID, borrowedItemPrice, borrowedQuantity, 
+					borrowedOrderCost);
+			fileFoundFlag = true;
+			filePW.close();
+		}//END OF TRY: Try to print the itemID, itemPrice, and quantity
+		//START OF CATCH: If try does not work, run catch.
+		catch (IOException ex)
+		{
+			fileFoundFlag = false;
+		}//END OF CATCH: If try does not work, run catch.
+		//END OF TRY/CATCH
+	}//END OF SETTER: setWriteOrder
+	
+	//START OF GETTER: getFileFoundFlag
+	public boolean getFileFoundFlag()
+	{
+		return fileFoundFlag;
+	}//END OF GETTER: getFileFoundFlag
+	
+	//START OF GETTER: getFileName
+	public String getFileName()
+	{
+		return masterFileName;
+	}//END OF GETTER: getFileName
+	
+	//START OF GETTER: getRecordCount
+	public int getRecordCount()
+	{
+		return recordCount;
+	}//END OF GETTER: getRecordCount
+	
+}//END OF SUPPORTIVE CLASS: WriteOrder
