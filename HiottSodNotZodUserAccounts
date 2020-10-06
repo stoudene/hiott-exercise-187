@@ -1,0 +1,154 @@
+/**AUTHOR: Esther Hiott
+ * COURSE: CPT 187 Object-Oriented Logic & Design
+ * PURPOSE: Allows the creation of a user name and password and stores the result.
+ * CREATE DATE: September 29, 2020 **/
+
+package edu.cpt187.hiott.exercise6;
+
+//IMPORT: 5 classes to read and write data files
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+//START OF CLASS: UserAccounts
+public class UserAccounts 
+{
+	//Declare and initialize class constants and class attributes
+	private final int NOT_FOUND = -1;
+	private final int RESET_VALUE = 0;
+	private final int MAXIMUM_RECORDS = 50;
+	
+	//Declare and initialize all non-constant class attributes
+	private String[] userNames = new String[MAXIMUM_RECORDS];
+	private String[] passwords = new String[MAXIMUM_RECORDS];
+	private String masterFileName = "";
+	private int recordCount = 0;
+	private int searchedIndex = 0;
+	
+	//START OF NON-DEFAULT CONSTRUCTOR: UserAccounts
+	public UserAccounts (String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}//END OF NON-DEFAULT CONSTRUCTOR: UserAccounts
+	
+	//START OF SETTER: setUserAccountArrays
+	public void setUserAccountArrays()
+	{
+		userNames = new String[MAXIMUM_RECORDS];
+		passwords = new String[MAXIMUM_RECORDS];
+	}//END OF SETTER: setUserAccountArrays
+	
+	//START OF SETTER: setSearchedIndex --> Original
+	public void setSearchedIndex (String borrowedUserName)
+	{
+		searchedIndex = getSeqSearch(borrowedUserName);
+	}//END OF SETTER: setSearchedIndex --> Original
+	
+	//START OF SETTER: setSearchedIndex --> Overloaded Method
+	public void setSearchedIndex (String borrowedUserName, String borrowedPassword)
+	{
+		searchedIndex = getSeqSearch(borrowedUserName);
+		
+		//START OF SELECTION STRUCTURE: if --> two conditions
+		if(searchedIndex >= RESET_VALUE && getPasswordMatch(borrowedPassword) == false)
+		{
+			searchedIndex = NOT_FOUND;
+		}//END OF SELECTION STRUCTURE: if --> two conditions
+	}//END OF SETTER: setSearchedIndex --> Overloaded Method
+	
+	//START OF SETTER: setWriteOneRecord
+	//Writes the user name and password to the master file
+	public void setWriteOneRecord (String borrowedUserName, String borrowedPassword)
+	{
+		//START OF TRY/CATCH
+		//START OF TRY: Try to print userName and password
+		try
+		{
+			PrintWriter filePW = new PrintWriter (new FileWriter(masterFileName, true));
+			filePW.printf("%n%s\t%s", borrowedUserName, borrowedPassword);
+			filePW.close();
+		}//END OF TRY: Try to print userName and password
+		//START OF CATCH: If try does not work, run catch
+		catch (IOException ex)
+		{
+			System.out.println("Error");
+		}//END OF CATCH: If try does not work, run catch
+		//END OF TRY/CATCH
+	}//END OF SETTER: setWriteOneRecord
+	
+	//START OF SETTER: getSeqSearch
+	public int getSeqSearch (String borrowedBorrowedUserName)
+	{
+		int localIndex = 0;
+		int localFound = NOT_FOUND;
+		
+		//START OF REPETITION STRUCTURE: localIndex < recordCount
+		while(localIndex < recordCount)
+		{
+			//START OF SELECTION STRUCTURE: borrowedBorrowedUserName == userNames[localIndex]
+			if(borrowedBorrowedUserName.equalsIgnoreCase(userNames[localIndex]))
+			{
+				localFound = localIndex;
+				localIndex = recordCount;
+			}//END OF SELECTION STRUCTURE: borrowedBorrowedUserName == userNames[localIndex]
+			//START OF SELECTION STRUCTURE: else
+			else
+			{
+				localIndex++;
+			}//END OF SELECTION STRUCTURE: else
+		}//END OF REPETITION STRUCTURE: localIndex < recordCount
+		
+		return localFound;
+	}//END OF SETTER: getSeqSearch
+	
+	//START OF SETTER: getPasswordMatch
+	public boolean getPasswordMatch (String borrowedBorrowedPassword)
+	{
+		int localIndex = 0;
+		boolean localFound = false;
+		
+		//START OF REPETITION STRUCTURE: localIndex < recordCount
+		while(localIndex < recordCount)
+		{
+			//START OF SELECTION STRUCTURE: borrowedBorrowedUserName == passwords[localIndex]
+			if(borrowedBorrowedPassword.equals(passwords[localIndex]))
+			{
+				localFound = true;
+				localIndex = recordCount;
+			}//END OF SELECTION STRUCTURE: borrowedBorrowedUserName == passwords[localIndex]
+			//START OF SELECTION STRUCTURE: else
+			else
+			{
+				localIndex++;
+			}//END OF SELECTION STRUCTURE: else
+		}//END OF REPETITION STRUCTURE: localIndex < recordCount
+		
+		return borrowedBorrowedPassword.compareTo(passwords[localIndex]) < 0;
+	}//END OF SETTER: getPasswordMatch
+	
+	//START OF GETTER: getFileName
+	public String getFileName()
+	{
+		return masterFileName;
+	}//END OF GETTER: getFileName
+	
+	//START OF GETTER: getMaximumRecords
+	public int getMaximumRecords()
+	{
+		return MAXIMUM_RECORDS;
+	}//END OF GETTER: getMaximumRecords
+	
+	//START OF GETTER: getRecordCount
+	public int getRecordCount()
+	{
+		return recordCount;
+	}//END OF GETTER: getRecordCount
+	
+	//START OF GETTER: getSearchedIndex
+	public int getSearchedIndex()
+	{
+		return searchedIndex;
+	}//END OF GETTER: getSearchedIndex
+}//END OF CLASS: UserAccounts
