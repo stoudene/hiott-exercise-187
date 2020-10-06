@@ -1,0 +1,173 @@
+/**AUTHOR: Esther Hiott
+ * COURSE: CPT 187 Object-Oriented Logic & Design
+ * PURPOSE: Allows the user to include the number of how many items they want. Calculates the order for the user.
+ * CREATE DATE: September 29, 2020 **/
+
+package edu.cpt187.hiott.exercise6;
+
+//START OF SUPPORTIVE CLASS: Order
+public class Order 
+{
+	//Declare and initialize class constants and class attributes
+	private final double TAX_RATE = .075;
+
+	//Declare and initialize all non-constant class attributes
+	private int discountType = 0;
+	private int itemID = 0;
+	private String itemName = "";
+	private double itemPrice = 0.0;
+	private String discountName = "";
+	private double discountRate = 0.0;
+	private int howMany = 0;
+	private int lastItemSelectedIndex = 0;
+	private String prizeName = "";
+
+	//START OF CLASS CONSTRUCTOR: Order
+	public Order()
+	{
+	}//END OF CLASS CONSTRUCTOR: Order
+		
+	//START OF SETTER: setLastItemSelectedIndex
+	public void setLastItemSelectedIndex (int borrowedSearchIndex)
+	{
+		lastItemSelectedIndex = borrowedSearchIndex;
+	}//END OF SETTER: setLastItemSelectedIndex
+
+	//START OF SETTER: setItemID
+	public void setItemID (int[] borrowedItemIDs)
+	{
+		itemID = borrowedItemIDs[lastItemSelectedIndex];
+	}//END OF SETTER: setItemID
+	
+	//START OF SETTER: setItemName
+	public void setItemName (String[] borrowedItemNames)
+	{
+		itemName = borrowedItemNames[lastItemSelectedIndex];
+	}//END OF SETTER: setItemName
+	
+	//START OF SETTER: setItemPrice
+	public void setItemPrice (double[] borrowedItemPrices)
+	{
+		itemPrice = borrowedItemPrices[lastItemSelectedIndex];
+	}//END OF SETTER: setItemPrice
+
+	//START OF SETTER: setHowMany
+	public void setHowMany (String borrowedHowMany)
+	{
+		howMany = Integer.parseInt(borrowedHowMany);
+	}//END OF SETTER: setHowMany
+
+	//START OF SETTER: setDiscountType
+	public void setDiscountType (char borrowedMenuSelection)
+	{
+		discountType = borrowedMenuSelection - 'A';
+	}//END OF SETTER: setDiscountType
+
+	//START OF SETTER: setDiscountName
+	public void setDiscountName (String[] borrowedDiscountNames)
+	{
+		discountName = borrowedDiscountNames[discountType];
+	}//END OF SETTER: setDiscountName
+
+	//START OF SETTER: setDiscountRate
+	public void setDiscountRate(double[] borrowedDiscountRate)
+	{
+		discountRate = borrowedDiscountRate[discountType];
+	}//END OF SETTER: setDiscountRate
+
+	//START OF SETTER: setPrizeName
+	public void setPrizeName (String[] borrowedPrizeNames, int borrowedPrizeIndex)
+	{
+		prizeName = borrowedPrizeNames[borrowedPrizeIndex];
+	}//END OF SETTER: setPrizeName
+	
+	//START OF SETTER: setDecreaseInStock
+	public void setDecreaseInStock (Inventory borrowedInventoryObject)
+	{
+		borrowedInventoryObject.setReduceStock(howMany);
+	}//END OF SETTER: setDecreaseInStock
+
+	//START OF GETTER: getInStockCount
+	public int getInStockCount (int[] borrowedInStockCounts)
+	{
+		return borrowedInStockCounts[lastItemSelectedIndex];
+	}//END OF GETTER: getInStockCount
+
+	//START OF GETTER: getItemID
+	public int getItemID()
+	{
+		return itemID;
+	}//END OF GETTER: getItemID
+	
+	//START OF GETTER: getItemName
+	public String getItemName()
+	{
+		return itemName;
+	}//END OF GETTER: getItemName
+
+	//START OF GETTER: getItemPrice
+	public double getItemPrice()
+	{
+		return itemPrice;
+	}//END OF GETTER: getItemPrice
+
+	//START OF GETTER: getHowMany
+	public int getHowMany()
+	{
+		return howMany;
+	}//END OF GETTER: getHowMany
+
+	//START OF GETTER: getDiscountName
+	public String getDiscountName()
+	{
+		return discountName;
+	}//END OF GETTER: getDiscountName
+
+	//START OF GETTER: getDiscountRate
+	public double getDiscountRate()
+	{
+		return discountRate;
+	}//END OF GETTER: getDiscountRate
+
+	//START OF GETTER: getDiscountAmt
+	public double getDiscountAmt()
+	{
+		return (itemPrice * discountRate);
+	}//END OF GETTER: getDiscountAmt
+
+	//START OF GETTER: getDiscountPrice
+	public double getDiscountPrice()
+	{
+		return (itemPrice - getDiscountAmt());
+	}//END OF GETTER: getDiscountPrice
+
+	//START OF GETTER: getPrizeName
+	public String getPrizeName()
+	{
+		return prizeName;
+	}//END OF GETTER: getPrizeName
+
+	//START OF GETTER: getSubTotal
+	public double getSubTotal()
+	{
+		return (howMany * getDiscountPrice());
+	}//END OF GETTER: getSubTotal
+
+	//START OF GETTER: getTaxRate
+	public double getTaxRate()
+	{
+		return TAX_RATE;
+	}//END OF GETTER: getTaxRate
+
+	//START OF GETTER: getTaxAmt
+	public double getTaxAmt()
+	{
+		return (TAX_RATE * getSubTotal());
+	}//END OF GETTER: getTaxAmt
+
+	//START OF GETTER: getTotalCost
+	public double getTotalCost()
+	{
+		return (getTaxAmt() + getSubTotal());
+	}//END OF GETTER: getTotalCost
+}//END OF SUPPORTIVE CLASS: Order
